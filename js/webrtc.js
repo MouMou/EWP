@@ -20,6 +20,8 @@ $(document).ready(function() {
     status = $("#status");
     openChannel();
     getUserMedia();
+
+    $("#test").on("click", function(){socket.emit("test");});
 });
 
 //--Fonctions Status()--//
@@ -37,6 +39,7 @@ setStatus = function(state) {
 //--Fonction openChannel()--//
 openChannel = function() {
     socket = io.connect('http://localhost:8888/');
+    console.log(socket);
     socket
       .on('connect', onChannelOpened)
       .on('message', onChannelMessage)
@@ -112,10 +115,10 @@ onHangup = function() {
     console.log("Hanging up.");    
     localVideo.css("opacity", "0");    
     remoteVideo.css("opacity", "0");    
-    pc.close();  
-    socket.close(); 
-    pc = null;    
-    socket = null;
+    pc.close();
+    pc = null;
+    socket.emit("exit");
+    //io.disconnect();
     setStatus("You have left the call. <a href=\""+window.location.href+"?initiator=1\">Click here</a> to rejoin.");    
 }
 
