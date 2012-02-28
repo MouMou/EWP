@@ -36,7 +36,7 @@ setStatus = function(state) {
 
 //--Fonction openChannel()--//
 openChannel = function() {
-    socket = io.connect('http://10.24.68.11:8888/');
+    socket = io.connect('http://localhost:8888/');
     socket
       .on('connect', onChannelOpened)
       .on('message', onChannelMessage)
@@ -162,7 +162,7 @@ onRemoteStreamAdded = function(event) {
     url = webkitURL.createObjectURL(event.stream);
     remoteVideo.css("opacity", "1");
     remoteVideo.attr("src",url);
-    setStatus("<input type=\"button\" id=\"hangup\" value=\"Hang up\" onclick=\"onHangup()\" />");
+    setStatus("Is currently in video conference <button id=\"hangup\" class=\"btn btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button>");
 }
 onRemoteStreamRemoved = function(event) {   
     console.log("Remote stream removed.");
