@@ -162,7 +162,7 @@ onRemoteStreamAdded = function(event) {
     url = webkitURL.createObjectURL(event.stream);
     remoteVideo.css("opacity", "1");
     remoteVideo.attr("src",url);
-    setStatus("Is currently in video conference <button id=\"hangup\" class=\"btn btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button>");
+    setStatus("Is currently in video conference <button id=\"hangup\" class=\"btn btn-mini btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button>");
 }
 onRemoteStreamRemoved = function(event) {   
     console.log("Remote stream removed.");
