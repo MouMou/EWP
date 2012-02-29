@@ -20,11 +20,14 @@ $(document).ready(function() {
     status = $("#status");
     openChannel();
     getUserMedia();
+
+
 });
 
 //--Fonctions Status()--//
 resetStatus = function() {
     if (!initiator) {
+        setStatus("Waiting for someone to join: <a href=\""+window.location.href+"?room="+room+"\">"+window.location.href+"?room="+room+"</a>");
         setStatus("<div class=\"alert\">Waiting for someone to join: <a href=\""+window.location.href+"?room="+room+"\">"+window.location.href+"?room="+room+"</a></div>");
     } else {
         setStatus("Initializing...");
@@ -37,6 +40,7 @@ setStatus = function(state) {
 //--Fonction openChannel()--//
 openChannel = function() {
     socket = io.connect('http://localhost:8888/');
+
     socket
       .on('connect', onChannelOpened)
       .on('message', onChannelMessage)
@@ -112,11 +116,11 @@ onHangup = function() {
     console.log("Hanging up.");    
     localVideo.css("opacity", "0");    
     remoteVideo.css("opacity", "0");    
-    //pc.close();  
-    //socket.close(); 
-    //pc = null;    
-    //socket = null;
-    setStatus("<div class=\"alert alert-info\">You have left the video conference.</div>");    
+    pc.close();
+    pc = null;
+    socket.emit("exit");
+    //io.disconnect();
+    setStatus("You have left the call. <a href=\""+window.location.href+"?initiator=1\">Click here</a> to rejoin.");    
 }
 
 //--Fonctions onChannel()--//

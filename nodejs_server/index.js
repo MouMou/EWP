@@ -15,6 +15,9 @@ io.sockets.on('connection', function (client) {
 		guest = true;
 		client.join(room);
 	});
+
+	console.log(guest);
+
 	if(!guest){
 		room = Math.floor(Math.random()*1000001).toString();
 		client.emit('getRoom', {roomId : room});
@@ -26,7 +29,11 @@ io.sockets.on('connection', function (client) {
         client.broadcast.to(room).send(broadcastMessage);
     });
 
-    client.on('close', function() {
+ 	client.on('exit',function(){
+    	client.broadcast.to(room).send('BYE');
+  	});
 
-    });
+  	client.on('disconnect',function(){
+    	client.broadcast.to(room).emit('close');
+  	});
 });
