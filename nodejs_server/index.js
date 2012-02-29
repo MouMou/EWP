@@ -5,10 +5,10 @@ var app = server.listen(8888);
 
 var io = require('socket.io').listen(app);
 
-var guest = false;
-var room = '';
-
 io.sockets.on('connection', function (client) {
+
+	var guest = false;
+	var room = '';
 
 	client.on("invite", function(invitation){
 		room = invitation;
