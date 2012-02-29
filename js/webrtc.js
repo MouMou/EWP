@@ -21,13 +21,13 @@ $(document).ready(function() {
     openChannel();
     getUserMedia();
 
-    $("#test").on("click", function(){socket.emit("test");});
+
 });
 
 //--Fonctions Status()--//
 resetStatus = function() {
     if (!initiator) {
-        setStatus("Waiting for someone to join: <a href=\""+window.location.href+"?room="+room+"\">"+window.location.href+"?room="+room+"</a>");
+        setStatus("<div class=\"alert\">Waiting for someone to join: <a href=\""+window.location.href+"?room="+room+"\">"+window.location.href+"?room="+room+"</a></div>");
     } else {
         setStatus("Initializing...");
     }
@@ -39,7 +39,7 @@ setStatus = function(state) {
 //--Fonction openChannel()--//
 openChannel = function() {
     socket = io.connect('http://localhost:8888/');
-    console.log(socket);
+
     socket
       .on('connect', onChannelOpened)
       .on('message', onChannelMessage)
@@ -119,7 +119,7 @@ onHangup = function() {
     pc = null;
     socket.emit("exit");
     //io.disconnect();
-    setStatus("You have left the call. <a href=\""+window.location.href+"?initiator=1\">Click here</a> to rejoin.");    
+    setStatus("<div class=\"alert alert-info\">You have left the call.</div>");    
 }
 
 //--Fonctions onChannel()--//
@@ -165,7 +165,7 @@ onRemoteStreamAdded = function(event) {
     url = webkitURL.createObjectURL(event.stream);
     remoteVideo.css("opacity", "1");
     remoteVideo.attr("src",url);
-    setStatus("Is currently in video conference <button id=\"hangup\" class=\"btn btn-mini btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button>");
+    setStatus("<div class=\"alert alert-success\">Is currently in video conference <button id=\"hangup\" class=\"btn btn-mini btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button></div>");
 }
 onRemoteStreamRemoved = function(event) {   
     console.log("Remote stream removed.");

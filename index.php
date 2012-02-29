@@ -2,29 +2,13 @@
 <html>
 <head>
 	<title>WebRTC</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/global.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="http://localhost:8888/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/webrtc.js" type="text/javascript" charset="utf-8"></script>
-  <script type="text/javascript" charset="utf-8" >
-    $(function() {
-      $('#myModal').modal();
-
-      $("#loginSub").on("click", function(){
-        var nickname = $("#nickname");
-
-        if(nickname.val() == ""){
-          nickname.parent('div').addClass("error");
-          nickname.siblings('span').removeClass('hide');
-        } else {
-          $('#username').text(nickname.val());
-          $('#myModal').modal('hide'); 
-        }
-      });
-    });
-  </script>
+	<script src="js/webrtc.js" type="text/javascript" charset="utf-8"></script>.
+  <script src="js/global.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	
@@ -36,7 +20,7 @@
       <form name="login">
         <div class="control-group">
           <label>Nickname :</label>
-          <input id="nickname" type="text" class="span3">
+          <input id="nickname" type="text" class="span2">
           <span class="help-inline hide">Not empty !</span>
         </div>
       </form> 
@@ -66,35 +50,45 @@
         </div>
       </div>
     </div>
+
     <div class="container">
 
-      
       <div class="hero-unit">
         <p>This is a demo for testing WebRTC in a LAN between two clients with WebRTC support.</p>
         <button class="btn" id="test">test</button>
       </div>
-
       
       <div class="row">
-        <div class="span6">
-          <h2>Local</h2>
-          <video width="100%" height="100%" id="localVideo" autoplay="autoplay" 
+        <div class="span6" align="center">
+          <h2 align="left">Local</h2>
+          <video width="50%" height="50%" id="localVideo" autoplay="autoplay" 
           style="opacity: 0;
   				-webkit-transition-property: opacity;
   				-webkit-transition-duration: 2s;">
           </video>
         </div>
-        <div class="span6">
-          <h2>Remote</h2>
-          <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay"
-  				style="opacity: 0; 
-  				-webkit-transition-property: opacity;
-  				-webkit-transition-duration: 2s;">
+        <div class="span6" align="center">
+          <h2 align="left">Remote</h2>
+          <video width="50%" height="50%" id="remoteVideo" autoplay="autoplay"
+          style="opacity: 0; 
+          -webkit-transition-property: opacity;
+          -webkit-transition-duration: 2s;">
           </video>
         </div>
       </div>
 
-      <div class="alert alert-success" id="footer"></div>
+      <div class="row">
+        <div class="span6" align="center">
+          <h2 align="left">Chat</h2>
+          <div style="height:270px;"></div>
+        </div>
+        <div class="span6" align="center">
+          <h2 align="left">Content</h2>
+          <div style="height:270px;"></div>
+        </div>
+      </div>
+
+      <div id="footer"></div>
 
       <hr>
 
