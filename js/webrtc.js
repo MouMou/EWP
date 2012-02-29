@@ -52,6 +52,7 @@ openChannel = function() {
     } else {
       socket.on('getRoom', function(data){
         room = data.roomId;
+        console.log(room);
         resetStatus();
         initiator = 0;
       });
@@ -100,7 +101,8 @@ createPeerConnection = function() {
     pc.onconnecting = onSessionConnecting;
     pc.onopen = onSessionOpened;
     pc.onaddstream = onRemoteStreamAdded;
-    pc.onremovestream = onRemoteStreamRemoved;    
+    pc.onremovestream = onRemoteStreamRemoved;
+    console.log(pc);    
 }
 
 //--Fonction onSignalingMessage()--//
