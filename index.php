@@ -71,6 +71,7 @@
       
       <div class="hero-unit">
         <p>This is a demo for testing WebRTC in a LAN between two clients with WebRTC support.</p>
+        <button class="btn" id="test">test</button>
       </div>
 
       
