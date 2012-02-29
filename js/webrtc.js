@@ -27,7 +27,6 @@ $(document).ready(function() {
 //--Fonctions Status()--//
 resetStatus = function() {
     if (!initiator) {
-        setStatus("Waiting for someone to join: <a href=\""+window.location.href+"?room="+room+"\">"+window.location.href+"?room="+room+"</a>");
         setStatus("<div class=\"alert\">Waiting for someone to join: <a href=\""+window.location.href+"?room="+room+"\">"+window.location.href+"?room="+room+"</a></div>");
     } else {
         setStatus("Initializing...");
@@ -120,7 +119,7 @@ onHangup = function() {
     pc = null;
     socket.emit("exit");
     //io.disconnect();
-    setStatus("You have left the call. <a href=\""+window.location.href+"?initiator=1\">Click here</a> to rejoin.");    
+    setStatus("<div class=\"alert alert-info\">You have left the call.</div>");    
 }
 
 //--Fonctions onChannel()--//
