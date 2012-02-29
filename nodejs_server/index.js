@@ -30,7 +30,7 @@ io.sockets.on('connection', function (client) {
     });
 
  	client.on('exit',function(){
-    	client.broadcast.to(room).send('BYE');
+    	client.broadcast.to(room).emit('bye');
   	});
 
   	client.on('disconnect',function(){

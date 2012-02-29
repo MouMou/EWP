@@ -42,6 +42,7 @@ openChannel = function() {
       .on('connect', onChannelOpened)
       .on('message', onChannelMessage)
       .on('error', onChannelError)
+      .on('bye', onChannelBye)
       .on('close', onChannelClosed);
       
     if(location.search.substring(1,5) == "room") {
@@ -116,7 +117,6 @@ onHangup = function() {
     pc.close();
     pc = null;
     socket.emit("exit");
-    //io.disconnect();
     setStatus("<div class=\"alert alert-info\">You have left the call.</div>");    
 }
 
@@ -127,20 +127,19 @@ onChannelOpened = function() {
     if (initiator) maybeStart();
 }
 onChannelMessage = function(message) {
-    console.log('S->C: ' + message); 
-    if (message != 'BYE') {
-        if (message.indexOf("\"ERROR\"", 0) == -1) {        
-            if (!initiator && !started) maybeStart();
-            pc.processSignalingMessage(message);    
-        }
-    } else {
-        console.log('Session terminated.');    
-        remoteVideo.css("opacity", "0");
-        remoteVideo.attr("src",null);
-        initiator = 0;
-        started = false;
-        resetStatus();
+    console.log('S->C: ' + message);
+    if (message.indexOf("\"ERROR\"", 0) == -1) {        
+        if (!initiator && !started) maybeStart();
+        pc.processSignalingMessage(message);    
     }
+}
+onChannelBye = function() {
+    console.log('Session terminated.');    
+    remoteVideo.css("opacity", "0");
+    //remoteVideo.attr("src",null);
+    initiator = 0;
+    started = false;
+    setStatus("<div class=\"alert alert-info\">Your partner have left the call.</div>");
 }
 onChannelError = function() {    
     console.log('Channel error.');
