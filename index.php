@@ -12,11 +12,12 @@
     </head>
 
     <body>
-	
-        <div class="modal hide fade" id="myModal">
-          <div class="modal-header">
-            <h3>WebRTC Sample Connection</h3>
-          </div>
+        
+        <div class="modal hide fade" id="ModalConnection">
+            
+            <div class="modal-header">
+              <h3>WebRTC Sample Connection</h3>
+            </div>
 
             <div class="modal-body">
               <div class="control-group">
@@ -32,6 +33,27 @@
 
         </div>
 
+        <div class="modal hide fade" id="ModalAbout">
+            
+            <div class="modal-header">
+              <h3>About WebRTC</h3>
+            </div>
+
+            <div class="modal-body">
+              <blockquote>
+                <p>Blablabla...</p>
+                <small>Project WebRTC</small>
+              </blockquote>
+            </div>
+
+            <div class="modal-footer">
+            <button id="close" class="btn btn-primary">Close</button>
+            <a class="btn btn-small btn-info" target="_blank" href="http://www.webrtc.org/">
+            <i class="icon-info-sign icon-white"></i>More Info</a>
+            </div>
+
+        </div>
+
         <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container-fluid">
@@ -40,12 +62,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </a>
-              <a class="brand" href="#">WebRTC Sample</a>
+              <a class="brand" href="./index.php">WebRTC Sample</a>
               <div class="nav-collapse">
                 <ul class="nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#contact">Contact</a></li>
+                  <li class="active"><a href="./index.php">Home</a></li>
+                  <li><span id="about" class="about">About</span></li>
                 </ul>
                 <p class="navbar-text pull-right">Logged in as <a id="username" href="#">username</a></p>
               </div>
@@ -91,8 +112,7 @@
                 
                 <div class="row-fluid" align="center">
                   <div class="span12">
-                    <h2>Content</h2>
-                    <img src="img/ppt.jpg" alt="PPT" width="500" height="500">
+                    <img src="img/ppt.jpg" alt="PPT" width="500" height="500" />
                   </div>
                 </div>
 
@@ -100,9 +120,14 @@
 
                 <div class="row-fluid" align="center">
                   <div class="span12">
-                    <div class="well">
-                    <h2>Chat</h2>
-                    </div>
+                      <h2 align="left">Chat</h2>
+                      <form class="well form-inline">
+                      <textarea class="input-xlarge" disabled="disabled" id="textarea" rows="2" style=" width: 820px; height: 40px; ">
+                      </textarea>
+                      <hr>
+                      <input type="text" class="input span8" placeholder="Message">
+                      <button id="send" class="btn btn-primary">Send</button>
+                      </form>
                   </div>
                 </div>
 

@@ -2,7 +2,7 @@ $(function() {
     
     var nickname = $("#nickname");
 
-    $('#myModal').modal({
+    $('#ModalConnection').modal({
       backdrop: "static",
       keyboard: false
     })
@@ -13,9 +13,20 @@ $(function() {
         nickname.siblings('span').removeClass('hide');
       } else {
         $('#username').text(nickname.val());
-        $('#myModal').modal('hide'); 
+        $('#ModalConnection').modal('hide'); 
         initialize();
       }
     });
-});
 
+    $("#about").on("click", function(){
+      $('#ModalAbout').modal({
+        backdrop: "static",
+        keyboard: false
+      })
+    });
+
+    $("#close").on("click", function(){
+        $('#ModalAbout').modal('hide'); 
+    });
+
+});
