@@ -20,8 +20,6 @@ $(document).ready(function() {
     status = $("#status");
     openChannel();
     getUserMedia();
-
-
 });
 
 //--Fonctions Status()--//
