@@ -13,14 +13,14 @@ var socket;
 var room;
 
 //--Fonction Initialize()--//
-$(document).ready(function() {
+initialize = function() {
     console.log("Initializing");
     localVideo = $("#localVideo");
     remoteVideo = $("#remoteVideo");
     status = $("#status");
     openChannel();
     getUserMedia();
-});
+}
 
 //--Fonctions Status()--//
 resetStatus = function() {

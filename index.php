@@ -17,18 +17,19 @@
           <div class="modal-header">
             <h3>WebRTC Sample Connection</h3>
           </div>
-          <div class="modal-body">
-            <form name="login">
+
+            <div class="modal-body">
               <div class="control-group">
                 <label>Nickname :</label>
                 <input id="nickname" type="text" class="span2">
                 <span class="help-inline hide">Not empty !</span>
               </div>
-            </form> 
-          </div>
-          <div class="modal-footer">
-            <button id="loginSub" class="btn btn-primary">Login</button> 
-          </div>
+            </div>
+
+            <div class="modal-footer">
+            <button id="loginSub" class="btn btn-primary">Login</button>
+            </div>
+
         </div>
 
         <div class="navbar navbar-fixed-top">
