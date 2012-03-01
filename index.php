@@ -1,18 +1,27 @@
 <!doctype html>
 <html>
     <head>
+    
       	<title>WebRTC</title>
+
+        <!-- Stylesheet Ressources -->
         <link rel="stylesheet" href="css/global.css">
       	<link rel="stylesheet" href="css/bootstrap.min.css">
+
+        <!-- Call the socket.io Ressources of the server -->
       	<script src="http://localhost:8888/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- JavaScript Ressources -->
       	<script src="js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
       	<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
       	<script src="js/webrtc.js" type="text/javascript" charset="utf-8"></script>.
         <script src="js/global.js" type="text/javascript" charset="utf-8"></script>
+
     </head>
 
     <body>
         
+        <!-- Modal Connection -->
         <div class="modal hide fade" id="ModalConnection">
             
             <div class="modal-header">
@@ -32,7 +41,9 @@
             </div>
 
         </div>
+        <!-- End of the Modal Connection -->
 
+        <!-- Modal About -->
         <div class="modal hide fade" id="ModalAbout">
             
             <div class="modal-header">
@@ -53,7 +64,9 @@
             </div>
 
         </div>
+        <!-- End of the Modal About -->
 
+        <!-- Navbar -->
         <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container-fluid">
@@ -73,76 +86,90 @@
             </div>
           </div>
         </div>
+        <!-- End of the Navbar -->
 
+        <!-- Content -->
         <div class="container-fluid">
 
+            <!-- Introduction -->
             <div class="hero-unit">
               <p>This is a demo for testing WebRTC in a LAN between two clients with WebRTC support.</p>
             </div>
+            <!-- End of Introduction -->
       
             <div class="row-fluid">
 
-              <div class="span3">
-
-                <div class="row-fluid">
-                  <div class="span12">
-                    <h2 align="left">Local</h2>
-                    <video width="100%" height="100%" id="localVideo" autoplay="autoplay" 
-                    style="opacity: 0;
-                    -webkit-transition-property: opacity;
-                    -webkit-transition-duration: 2s;">
-                    </video>
+                <div class="span3">
+                  
+                  <!-- Local Video -->
+                  <div class="row-fluid">
+                    <div class="span12">
+                      <h2 align="left">Local</h2>
+                      <video width="100%" height="100%" id="localVideo" autoplay="autoplay" 
+                      style="opacity: 0;
+                      -webkit-transition-property: opacity;
+                      -webkit-transition-duration: 2s;">
+                      </video>
+                    </div>
                   </div>
+                  <!-- End of Local Video -->
+
+                  <!-- Remote Video -->
+                  <div class="row-fluid">
+                    <div class="span12">
+                      <h2 align="left">Remote</h2>
+                      <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay"
+                      style="opacity: 0; 
+                      -webkit-transition-property: opacity;
+                      -webkit-transition-duration: 2s;">
+                      </video>
+                    </div>
+                  </div>
+                  <!-- End of Remote Video -->
+
                 </div>
 
-                <div class="row-fluid">
-                  <div class="span12">
-                    <h2 align="left">Remote</h2>
-                    <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay"
-                    style="opacity: 0; 
-                    -webkit-transition-property: opacity;
-                    -webkit-transition-duration: 2s;">
-                    </video>
+                <div class="span9">
+                  
+                  <!-- Content (Power Point) -->
+                  <div class="row-fluid" align="center">
+                    <div class="span12">
+                      <img src="img/ppt.jpg" alt="PPT" width="500" height="500" />
+                    </div>
                   </div>
-                </div>
+                  <!-- End of Content (Power Point) -->
 
-              </div>
+                  <br>
 
-              <div class="span9">
-                
-                <div class="row-fluid" align="center">
-                  <div class="span12">
-                    <img src="img/ppt.jpg" alt="PPT" width="500" height="500" />
+                  <!-- Chat -->
+                  <div class="row-fluid" align="center">
+                    <div class="span12">
+                        <h2 align="left">Chat</h2>
+                        <form class="well form-inline">
+                        <textarea class="input-xlarge" disabled="disabled" id="textarea" rows="2" style=" width: 820px; height: 40px; ">
+                        </textarea>
+                        <hr>
+                        <input type="text" class="input span8" placeholder="Message">
+                        <button id="send" class="btn btn-primary">Send</button>
+                        </form>
+                    </div>
                   </div>
+                  <!-- End of Chat -->
+
                 </div>
-
-                <br>
-
-                <div class="row-fluid" align="center">
-                  <div class="span12">
-                      <h2 align="left">Chat</h2>
-                      <form class="well form-inline">
-                      <textarea class="input-xlarge" disabled="disabled" id="textarea" rows="2" style=" width: 820px; height: 40px; ">
-                      </textarea>
-                      <hr>
-                      <input type="text" class="input span8" placeholder="Message">
-                      <button id="send" class="btn btn-primary">Send</button>
-                      </form>
-                  </div>
-                </div>
-
-              </div>
 
             </div>
 
+            <!-- Statut of the visio call -->
             <div id="footer"></div>
 
             <hr>
 
-            <footer>
-              <p>&copy; Atos Worldline 2012</p>
-            </footer>
+            <!-- Footer -->
+            <footer><p>&copy; Atos Worldline 2012</p></footer>
 
         </div>
+        <!-- End of the Content -->
+
     </body>
 </html>
