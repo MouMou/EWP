@@ -14,8 +14,9 @@
         <!-- JavaScript Ressources -->
       	<script src="js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
       	<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-      	<script src="js/webrtc.js" type="text/javascript" charset="utf-8"></script>.
         <script src="js/global.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/tchat.js" type="text/javascript" charset="utf-8"></script>
+      	<script src="js/webrtc.js" type="text/javascript" charset="utf-8"></script>
 
     </head>
 
@@ -131,27 +132,84 @@
 
                 <div class="span9">
                   
-                  <!-- Content (Power Point) -->
+                  <!-- Carousel -->
                   <div class="row-fluid" align="center">
                     <div class="span12">
-                      <img src="img/ppt.jpg" alt="PPT" width="500" height="500" />
+                      <div id="myCarousel" class="carousel">
+                        <div class="carousel-inner">
+                          <div class="active item">
+                              <img src="img/carousel/diapositive1.jpg" width="500" alt="Slide 1">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive2.jpg" width="500" alt="Slide 2">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive3.jpg" width="500" alt="Slide 3">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive4.jpg" width="500" alt="Slide 4">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive5.jpg" width="500" alt="Slide 5">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive6.jpg" width="500" alt="Slide 6">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive7.jpg" width="500" alt="Slide 7">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive8.jpg" width="500" alt="Slide 8">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive9.jpg" width="500" alt="Slide 9">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive10.jpg" width="500" alt="Slide 10">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive11.jpg" width="500" alt="Slide 11">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive12.jpg" width="500" alt="Slide 12">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive13.jpg" width="500" alt="Slide 13">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive14.jpg" width="500" alt="Slide 14">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive15.jpg" width="500" alt="Slide 15">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive16.jpg" width="500" alt="Slide 16">
+                          </div>
+                          <div class="item">
+                              <img src="img/carousel/diapositive17.jpg" width="500" alt="Slide 17">
+                          </div>
+                        </div>
+                        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                      </div>
                     </div>
                   </div>
-                  <!-- End of Content (Power Point) -->
+                  <!-- End of Carousel -->
 
                   <br>
 
                   <!-- Chat -->
-                  <div class="row-fluid" align="center">
+                  <div class="row-fluid">
                     <div class="span12">
                         <h2 align="left">Chat</h2>
-                        <form class="well form-inline">
-                        <textarea class="input-xlarge" disabled="disabled" id="textarea" rows="2" style=" width: 820px; height: 40px; ">
-                        </textarea>
-                        <hr>
-                        <input type="text" class="input span8" placeholder="Message">
-                        <button id="send" class="btn btn-primary">Send</button>
-                        </form>
+                        <div class="well">
+                            <div id="tchat"></div>
+                            <hr>
+                            <form align="center" class="form-inline">
+                                <input id="mess" type="text" class="input span8" placeholder="Message">
+                                <button id="send" class="btn btn-primary">Send</button>
+                            </form>
+                        </div>
                     </div>
                   </div>
                   <!-- End of Chat -->

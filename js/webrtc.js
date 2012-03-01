@@ -66,7 +66,9 @@ openChannel = function() {
       .on('message', onChannelMessage)
       .on('error', onChannelError)
       .on('bye', onChannelBye)
-      .on('close', onChannelClosed);
+      .on('close', onChannelClosed)
+      .on('recupererMessages', recupererMessages)
+      .on('recupererNouveauMessage', recupererNouveauMessage);
      
     /**
      * search the url address for the parameter room
