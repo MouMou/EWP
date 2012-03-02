@@ -18,6 +18,11 @@
 	display:block;
 }
 
-img {
-	border: 1px solid #999;
+#tchat{
+	background-color: #ffffff;
+	width:830px;
+	height:70px;
+	margin-left: 20px;
+	overflow-y:auto;
 }
+

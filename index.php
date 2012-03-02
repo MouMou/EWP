@@ -196,14 +196,12 @@
                   </div>
                   <!-- End of Carousel -->
 
-                  <br>
-
                   <!-- Chat -->
                   <div class="row-fluid">
                     <div class="span12">
                         <h2 align="left">Chat</h2>
                         <div class="well">
-                            <div id="tchat"></div>
+                            <div id="tchat" class="tchat"></div>
                             <hr>
                             <form align="center" class="form-inline">
                                 <input id="mess" type="text" class="input span8" placeholder="Message">
