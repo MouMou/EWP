@@ -150,8 +150,7 @@ createPeerConnection = function() {
     pc.onconnecting = onSessionConnecting;
     pc.onopen = onSessionOpened;
     pc.onaddstream = onRemoteStreamAdded;
-    pc.onremovestream = onRemoteStreamRemoved;
-    console.log(pc);    
+    pc.onremovestream = onRemoteStreamRemoved;  
 }
 
 /**
