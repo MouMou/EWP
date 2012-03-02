@@ -16,10 +16,11 @@ You have to install
 
 1. Get the sources
 2. Move them in your www directory
-3. Launch index.js in nodejs_server with node /path/to/your/www/nodejs_server/index.js
-4. Open the page http://yourserver/
-5. Then use the link given to your partner
-6. Enjoy
+3. Change the server address in index.php and webrtc.js if needed
+4. Launch index.js in nodejs_server with node /path/to/your/www/nodejs_server/index.js
+5. Open the page http://yourserver/
+6. Then use the link given to your partner
+7. Enjoy
 
 # Credits
 
