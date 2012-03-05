@@ -63,6 +63,22 @@ io.sockets.on('connection', function (client) {
     });
 
     /**
+	 * When a user changes for a next slide
+	 * broadcast to all users in the room
+	 */
+    client.on('prevSlide', function() {
+    	client.broadcast.to(room).emit('prevSlide');
+    });
+
+    /**
+	 * When a user changes for a previous slide
+	 * broadcast to all users in the room
+	 */
+    client.on('nextSlide', function() {
+    	client.broadcast.to(room).emit('nextSlide');
+    });
+
+    /**
 	 * List of messages (chat)
 	 */
 	client.emit('recupererMessages', messages[room]);

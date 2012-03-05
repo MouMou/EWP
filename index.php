@@ -17,6 +17,7 @@
         <script src="js/global.js" type="text/javascript" charset="utf-8"></script>
         <script src="js/tchat.js" type="text/javascript" charset="utf-8"></script>
       	<script src="js/webrtc.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/slide.js" type="text/javascript" charset="utf-8"></script>
 
     </head>
 
@@ -189,8 +190,8 @@
                               <img src="img/carousel/diapositive17.jpg" width="450" alt="Slide 17">
                           </div>
                         </div>
-                        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                        <a id="prevSlide" class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                        <a  id="nextSlide" class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
                       </div>
                     </div>
                   </div>
@@ -201,7 +202,7 @@
                     <div class="span12">
                         <h2 align="left">Chat</h2>
                         <div class="well">
-                            <div id="tchat" class="tchat">gfjghkhji</div>
+                            <div id="tchat" class="tchat"></div>
                             <hr>
                             <form align="center" class="form-inline">
                                 <input id="mess" type="text" class="input span8" placeholder="Message">

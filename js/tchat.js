@@ -9,12 +9,13 @@
  */
 recupererMessages = function (messages) {
 	var html = '';
+	var tchat = $('#tchat');
 	for (var i = 0; i < messages.length; i++) {
 		html += '<div class="line"><b>'+messages[i].nickname+'</b> : '+messages[i].message+'</div>';
 		taille += 18;
 	}
-	$('#tchat').html(html);
-	$("#tchat").scrollTop(10000);
+	tchat.html(html);
+	setHeight(tchat);
 }
 
 /**
@@ -23,10 +24,21 @@ recupererMessages = function (messages) {
  * @return {void}
  */	
 recupererNouveauMessage = function (message) {
-	var html = $('#tchat').html();
+	var tchat = $('#tchat');
+	var html = tchat.html();
 	html += '<div class="line"><b>'+message.nickname+'</b> : '+message.message+'</div>';
-	$('#tchat').html(html);
-	$("#tchat").scrollTop(10000);
+	tchat.html(html);
+	setHeight(tchat);
+}
+
+/**
+ * Calculate the height of the line's chat
+ * @param {object} elt : $('#tchat')
+ * @return {void}
+ */	
+setHeight = function(elt) {
+	var height = elt.children().length * elt.children().first().height();
+	elt.scrollTop(height);
 }
 	
 /**
@@ -38,16 +50,17 @@ recupererNouveauMessage = function (message) {
  */	
 $(function() {
 	$('#send').on("click", function () {
-		mess = $('#mess');
+		var mess = $('#mess');
 		var message = $('#mess').val();
+		var tchat = $('#tchat');
 		
 		socket.emit('nouveauMessage', { 'nickname' : $('#username').text(), 'message' : message });
 		
-		var html = $('#tchat').html();
+		var html = tchat.html();
 		html += '<div class="line"><b>'+$('#username').text()+'</b> : '+message+'</div>';
-		$('#tchat').html(html);
-		$('#mess').val('');
-		$("#tchat").scrollTop(10000);
+		tchat.html(html);
+		val.mess('');
+		setHeight(tchat);
 		
 		return false;
 	});
