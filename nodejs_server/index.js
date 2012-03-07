@@ -7,10 +7,15 @@ var io = require('socket.io').listen(app);
 
 var messages = new Array();
 
+var connectes = 0;
+
 io.sockets.on('connection', function (client) {
 
 	var guest = false;
 	var room = '';
+
+	connectes++;
+	console.log(connectes);
 
 	client.on("invite", function(invitation){
 		room = invitation;
@@ -18,8 +23,6 @@ io.sockets.on('connection', function (client) {
 		client.join(room);
 		messages[room] = new Array();
 	});
-
-	console.log(guest);
 
 	if(!guest){
 		room = Math.floor(Math.random()*1000001).toString();
