@@ -68,7 +68,9 @@ openChannel = function() {
       .on('bye', onChannelBye)
       .on('close', onChannelClosed)
       .on('recupererMessages', recupererMessages)
-      .on('recupererNouveauMessage', recupererNouveauMessage);
+      .on('recupererNouveauMessage', recupererNouveauMessage)
+      .on('prevSlide', remotePrev)
+      .on('nextSlide', remoteNext);
      
     /**
      * search the url address for the parameter room
@@ -150,8 +152,7 @@ createPeerConnection = function() {
     pc.onconnecting = onSessionConnecting;
     pc.onopen = onSessionOpened;
     pc.onaddstream = onRemoteStreamAdded;
-    pc.onremovestream = onRemoteStreamRemoved;
-    console.log(pc);    
+    pc.onremovestream = onRemoteStreamRemoved;  
 }
 
 /**

@@ -17,6 +17,7 @@
         <script src="js/global.js" type="text/javascript" charset="utf-8"></script>
         <script src="js/tchat.js" type="text/javascript" charset="utf-8"></script>
       	<script src="js/webrtc.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/slide.js" type="text/javascript" charset="utf-8"></script>
 
     </head>
 
@@ -138,59 +139,59 @@
                       <div id="myCarousel" class="carousel">
                         <div class="carousel-inner">
                           <div class="active item">
-                              <img src="img/carousel/diapositive1.jpg" width="500" alt="Slide 1">
+                              <img src="img/carousel/diapositive1.jpg" width="450" alt="Slide 1">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive2.jpg" width="500" alt="Slide 2">
+                              <img src="img/carousel/diapositive2.jpg" width="450" alt="Slide 2">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive3.jpg" width="500" alt="Slide 3">
+                              <img src="img/carousel/diapositive3.jpg" width="450" alt="Slide 3">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive4.jpg" width="500" alt="Slide 4">
+                              <img src="img/carousel/diapositive4.jpg" width="450" alt="Slide 4">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive5.jpg" width="500" alt="Slide 5">
+                              <img src="img/carousel/diapositive5.jpg" width="450" alt="Slide 5">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive6.jpg" width="500" alt="Slide 6">
+                              <img src="img/carousel/diapositive6.jpg" width="450" alt="Slide 6">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive7.jpg" width="500" alt="Slide 7">
+                              <img src="img/carousel/diapositive7.jpg" width="450" alt="Slide 7">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive8.jpg" width="500" alt="Slide 8">
+                              <img src="img/carousel/diapositive8.jpg" width="450" alt="Slide 8">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive9.jpg" width="500" alt="Slide 9">
+                              <img src="img/carousel/diapositive9.jpg" width="450" alt="Slide 9">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive10.jpg" width="500" alt="Slide 10">
+                              <img src="img/carousel/diapositive10.jpg" width="450" alt="Slide 10">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive11.jpg" width="500" alt="Slide 11">
+                              <img src="img/carousel/diapositive11.jpg" width="450" alt="Slide 11">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive12.jpg" width="500" alt="Slide 12">
+                              <img src="img/carousel/diapositive12.jpg" width="450" alt="Slide 12">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive13.jpg" width="500" alt="Slide 13">
+                              <img src="img/carousel/diapositive13.jpg" width="450" alt="Slide 13">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive14.jpg" width="500" alt="Slide 14">
+                              <img src="img/carousel/diapositive14.jpg" width="450" alt="Slide 14">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive15.jpg" width="500" alt="Slide 15">
+                              <img src="img/carousel/diapositive15.jpg" width="450" alt="Slide 15">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive16.jpg" width="500" alt="Slide 16">
+                              <img src="img/carousel/diapositive16.jpg" width="450" alt="Slide 16">
                           </div>
                           <div class="item">
-                              <img src="img/carousel/diapositive17.jpg" width="500" alt="Slide 17">
+                              <img src="img/carousel/diapositive17.jpg" width="450" alt="Slide 17">
                           </div>
                         </div>
-                        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                        <a id="prevSlide" class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                        <a  id="nextSlide" class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
                       </div>
                     </div>
                   </div>

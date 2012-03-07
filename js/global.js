@@ -58,12 +58,5 @@ $(function() {
     $("#close").on("click", function(){
         $('#ModalAbout').modal('hide'); 
     });
-
-    /**
-     * Declaration of the carousel
-     * @return {void}
-     */
-    $('.carousel').carousel('pause');
-
 });
 
