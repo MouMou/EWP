@@ -12,7 +12,6 @@ server.listen(8080, function() {
 
 var connections = new Array();
 
-
 wsServer = new WebSocketServer({
     httpServer: server,
     // You should not use autoAcceptConnections for production
@@ -42,26 +41,49 @@ wsServer.on('request', function(request) {
     console.log((new Date()) + ' Connection accepted.');
 
     connection.on('message', function(message) {
-        if (message.utf8Data.indexOf("\"INVITE\"", 0) != -1){
-            var messages = message.utf8Data.split(':');
-            room = messages[1];
-            guest = true;
-            connection.sendUTF(message.utf8Data);
-        }
-        else {
-        	connections[room].forEach(function(destination) {
-            	if(destination != connection)
-            		destination.sendUTF(message.utf8Data);
-            });
+        message = JSON.parse(message.utf8Data);
+        console.log(message);
+        switch(message["type"]) {
+            case "INVITE" :
+                guest = true;
+                connections[room].push(connection);
+
+            break;
+            case "GETROOM" :
+                room = Math.floor(Math.random()*1000001).toString();
+                message = JSON.stringify({'type' : 'GETROOM', 'value': room});
+                connection.send(message);
+                connections.push(room);
+                connections[room] = new Array();
+                connections[room].push(connection);
+            break;
+            case "SDP" :
+                connections[room].forEach(function(destination) {
+                    if(destination != connection) {
+                        message = JSON.stringify({'type' : 'SDP', 'value': message["value"]});
+                        destination.send(message);
+                    }
+                });
+            break;
+            case "SLIDE" :
+                connections[room].forEach(function(destination) {
+                    if(destination != connection) {
+                        message = JSON.stringify({'type' : 'SLIDE', 'value': message["value"]});
+                        destination.send(message);
+                    }
+                });
+            break;
+            case "NEWMESSAGE" :
+                messages[room].push(message["value"]);
+                connections[room].forEach(function(destination) {
+                    if(destination != connection) {
+                        message = JSON.stringify({'type' : 'NEWMESSAGE', 'value': JSON.stringify(message["value"])});
+                        destination.send(message);
+                    }
+                });
+            break;
         }
     });
-
-
-    if(!guest){
-		room = Math.floor(Math.random()*1000001).toString();
-		connection.send('GETROOM:'+room);
-		connections[room].push(connection);
-	}
 
     connection.on('close', function(reasonCode, description) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');

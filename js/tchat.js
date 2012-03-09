@@ -52,14 +52,16 @@ $(function() {
 	$('#send').on("click", function () {
 		var mess = $('#mess');
 		var message = $('#mess').val();
-		var tchat = $('#tchat');
+		var tchat = $('#tchat'); 
 		
-		socket.emit('nouveauMessage', { 'nickname' : $('#username').text(), 'message' : message });
+		var messageSocket = JSON.stringify({'type' : 'NEWMESSAGE', 'value' : { 'nickname' : $('#username').text(), 'message' : message }});
+
+		connection.send(messageSocket);
 		
 		var html = tchat.html();
 		html += '<div class="line"><b>'+$('#username').text()+'</b> : '+message+'</div>';
 		tchat.html(html);
-		val.mess('');
+		mess.val('');
 		setHeight(tchat);
 		
 		return false;

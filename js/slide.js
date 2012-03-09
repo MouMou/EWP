@@ -2,6 +2,19 @@
 // Javascript file used to change slide //
 //////////////////////////////////////////
 
+/**
+ * Previous slide
+ * @return {void}
+ */
+remoteSlide = function(way) {
+	$('.carousel').carousel(way);
+}
+
+/**
+ * Emit to the server
+ * @return {void}
+ */
+
 $(function() {
 	/**
 	 * Declaration of the carousel
@@ -14,38 +27,12 @@ $(function() {
 	 * Event to previous and next slide
 	 * @return {void}
 	 */
-	$('#prevSlide').on('click', prevSlide);
-	$('#nextSlide').on("click", nextSlide);
+	$('#prevSlide').on('click', function(){
+		var message = JSON.stringify({'type' : 'SLIDE', 'value' : $(this).data('slide')});
+		connection.send(message);
+	});
+	$('#nextSlide').on("click", function(){
+		var message = JSON.stringify({'type' : 'SLIDE', 'value' : $(this).data('slide')});
+		connection.send(message);
+	});
 });
-
-/**
- * Previous slide
- * @return {void}
- */
-remotePrev = function() {
-	$('.carousel').carousel('prev');
-}
-
-/**
- * Emit to the server
- * @return {void}
- */
-prevSlide = function() {
-	socket.emit('prevSlide');
-}
-
-/**
- * Next slide
- * @return {void}
- */
-remoteNext = function() {
-	$('.carousel').carousel('next');
-}
-
-/**
- * Emit to the server
- * @return {void}
- */
-nextSlide = function() {
-	socket.emit('nextSlide');
-}
