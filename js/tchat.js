@@ -59,7 +59,7 @@ $(function() {
 		var html = tchat.html();
 		html += '<div class="line"><b>'+$('#username').text()+'</b> : '+message+'</div>';
 		tchat.html(html);
-		val.mess('');
+		mess.val('');
 		setHeight(tchat);
 		
 		return false;

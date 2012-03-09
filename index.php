@@ -54,8 +54,9 @@
 
             <div class="modal-body">
               <blockquote>
-                <p>Blablabla...</p>
-                <small>Project WebRTC</small>
+                <p align="justify">WebRTC is an open source project that allows web browsers to communicate with one another using the protocol Real-Time Communications (RTC) via a simple Javascript API. WebRTC components were optimized to better serve this purpose.</p>
+                <p align="justify">WebRTC initiative is a project supported primarily by Google, Mozilla and Opera.</p>
+                <small class="pull-right">Project WebRTC</small>
               </blockquote>
             </div>
 
@@ -81,7 +82,9 @@
               <div class="nav-collapse">
                 <ul class="nav">
                   <li class="active"><a href="./index.php">Home</a></li>
-                  <li><span id="about" class="about">About</span></li>
+                  <li><a href="https://github.com/MouMou/EWP" target="_blank">Project GitHub</a></li>
+                  <li><a href="http://wiki.tribolet.fr/" target="_blank">Wiki</a></li>
+                  <li><span id="about" class="about">About webRTC</span></li>
                 </ul>
                 <p class="navbar-text pull-right">Logged in as <a id="username" href="#">username</a></p>
               </div>
@@ -105,8 +108,9 @@
                   
                   <!-- Local Video -->
                   <div class="row-fluid">
-                    <div class="span12">
+                    <div style="position: relative;" class="span12">
                       <h2 align="left">Local</h2>
+                      <span id="locallive" class="live hide">LIVE</span>
                       <video width="100%" height="100%" id="localVideo" autoplay="autoplay" 
                       style="opacity: 0;
                       -webkit-transition-property: opacity;
@@ -118,8 +122,9 @@
 
                   <!-- Remote Video -->
                   <div class="row-fluid">
-                    <div class="span12">
+                    <div style="position: relative;" class="span12">
                       <h2 align="left">Remote</h2>
+                      <span id="remotelive" class="live hide">LIVE</span>
                       <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay"
                       style="opacity: 0; 
                       -webkit-transition-property: opacity;
@@ -205,7 +210,7 @@
                             <div id="tchat" class="tchat"></div>
                             <hr>
                             <form align="center" class="form-inline">
-                                <input id="mess" type="text" class="input span8" placeholder="Message">
+                                <input id="mess" type="text" class="input span8" autocomplete="off" placeholder="Message">
                                 <button id="send" class="btn btn-primary">Send</button>
                             </form>
                         </div>

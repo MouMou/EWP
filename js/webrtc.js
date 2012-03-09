@@ -113,8 +113,9 @@ onUserMediaSuccess = function(stream) {
     console.log("User has granted access to local media.");
     url = webkitURL.createObjectURL(stream);
     localVideo.css("opacity", "1");
+    $("#locallive").removeClass('hide');
     localVideo.attr("src", url);
-    localStream = stream;
+    localStream = stream;   
     if (guest) maybeStart();    
 }
 
@@ -173,7 +174,9 @@ onSignalingMessage = function(message) {
 onHangup = function() {
     console.log("Hanging up.");    
     localVideo.css("opacity", "0");    
-    remoteVideo.css("opacity", "0");    
+    remoteVideo.css("opacity", "0");
+    $("#locallive").addClass('hide');
+    $("#remotelive").addClass('hide');    
     pc.close();
     pc = null;
     socket.emit("exit");
@@ -211,6 +214,7 @@ onChannelMessage = function(message) {
 onChannelBye = function() {
     console.log('Session terminated.');    
     remoteVideo.css("opacity", "0");
+    $("#remotelive").addClass('hide');
     //remoteVideo.attr("src",null);
     guest = 0;
     started = false;
@@ -260,6 +264,7 @@ onRemoteStreamAdded = function(event) {
     console.log("Remote stream added.");
     url = webkitURL.createObjectURL(event.stream);
     remoteVideo.css("opacity", "1");
+    $("#remotelive").removeClass('hide');
     remoteVideo.attr("src",url);
     setStatus("<div class=\"alert alert-success\">Is currently in video conference <button id=\"hangup\" class=\"btn btn-mini btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button></div>");
 }
