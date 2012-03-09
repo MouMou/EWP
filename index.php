@@ -9,7 +9,7 @@
       	<link rel="stylesheet" href="css/bootstrap.min.css">
 
         <!-- Call the socket.io Ressources of the server -->
-      	<script src="http://localhost:8888/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>
+      	<script src="http://10.24.65.57:8888/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- JavaScript Ressources -->
       	<script src="js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>

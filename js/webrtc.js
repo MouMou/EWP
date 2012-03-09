@@ -59,9 +59,20 @@ setStatus = function(state) {
  * @return {void}
  */
 openChannel = function() {
-    socket = io.connect('http://localhost:8888/');
 
-    socket
+  var connection = new WebSocket('ws://localhost:8080/');
+
+  // When the connection is open, send some data to the server
+  connection.onopen = onChannelOpened;
+
+  // Log errors
+  connection.onerror = function (error) {
+  console.log('WebSocket Error ' + error);
+
+  // Log messages from the server
+  connection.onmessage = onChannelMessage;
+/*
+  socket
       .on('connect', onChannelOpened)
       .on('message', onChannelMessage)
       .on('error', onChannelError)
@@ -70,15 +81,16 @@ openChannel = function() {
       .on('recupererMessages', recupererMessages)
       .on('recupererNouveauMessage', recupererNouveauMessage)
       .on('prevSlide', remotePrev)
-      .on('nextSlide', remoteNext);
-     
+      .on('nextSlide', remoteNext);*/
+
     /**
      * search the url address for the parameter room
      * if it exists it means you are a guest and you don't need to request a room number
-     */ 
+     */    
+    
     if(location.search.substring(1,5) == "room") {
       room = location.search.substring(6);
-      socket.emit("invite", room);
+      socket.send("INVITE:"+room);
       guest =1;
     } else {
       socket.on('getRoom', function(data){
@@ -148,7 +160,7 @@ maybeStart = function() {
  * @return {void}
  */
 createPeerConnection = function() {
-    pc = new webkitPeerConnection("NONE", onSignalingMessage);  
+    pc = new webkitPeerConnection("NONE", onSignalingMessage);
     pc.onconnecting = onSessionConnecting;
     pc.onopen = onSessionOpened;
     pc.onaddstream = onRemoteStreamAdded;
@@ -198,9 +210,16 @@ onChannelOpened = function() {
  */
 onChannelMessage = function(message) {
     console.log('S->C: ' + message);
+    var messages = message.split(":");
     if (message.indexOf("\"ERROR\"", 0) == -1) {        
         if (!guest && !started) maybeStart();
         pc.processSignalingMessage(message);    
+    }
+    else if (messages[0] == "INVITE"){
+      room = messages[1];
+      console.log(room);
+      resetStatus();
+      guest = 0;
     }
 }
 
