@@ -46,6 +46,7 @@ wsServer.on('request', function(request) {
         switch(message["type"]) {
             case "INVITE" :
                 guest = true;
+                room = message["value"];
                 connections[room].push(connection);
 
             break;
