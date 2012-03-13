@@ -52,8 +52,9 @@
 
             <div class="modal-body">
               <blockquote>
-                <p>Blablabla...</p>
-                <small>Project WebRTC</small>
+                <p align="justify">WebRTC is an open source project that allows web browsers to communicate with one another using the protocol Real-Time Communications (RTC) via a simple Javascript API. WebRTC components were optimized to better serve this purpose.</p>
+                <p align="justify">WebRTC initiative is a project supported primarily by Google, Mozilla and Opera.</p>
+                <small class="pull-right">Project WebRTC</small>
               </blockquote>
             </div>
 
@@ -79,7 +80,9 @@
               <div class="nav-collapse">
                 <ul class="nav">
                   <li class="active"><a href="./index.php">Home</a></li>
-                  <li><span id="about" class="about">About</span></li>
+                  <li><a href="https://github.com/MouMou/EWP" target="_blank">Project GitHub</a></li>
+                  <li><a href="http://wiki.tribolet.fr/" target="_blank">Wiki</a></li>
+                  <li><span id="about" class="about">About webRTC</span></li>
                 </ul>
                 <p class="navbar-text pull-right">Logged in as <a id="username" href="#">username</a></p>
               </div>

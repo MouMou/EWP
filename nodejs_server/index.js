@@ -75,7 +75,6 @@ wsServer.on('request', function(request) {
                 });
             break;
             case "NEWMESSAGE" :
-                messages[room].push(message["value"]);
                 connections[room].forEach(function(destination) {
                     if(destination != connection) {
                         message = JSON.stringify({'type' : 'NEWMESSAGE', 'value': JSON.stringify(message["value"])});
