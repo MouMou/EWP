@@ -133,7 +133,7 @@ wsServer.on('request', function(request) {
     connection.on('close', function(reasonCode, description) {
         connections[room].forEach(function(destination) {
             if(destination != connection) {
-                var message = JSON.stringify({'type' : 'BYE', 'value': '')});
+                var message = JSON.stringify({'type' : 'BYE', 'value': ''});
                 destination.send(message);
             }
         });
