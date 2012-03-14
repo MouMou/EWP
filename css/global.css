@@ -25,3 +25,16 @@
 	margin-left: 20px;
 	overflow-y:auto;
 }
+
+.live {
+position: absolute;
+color: white;
+z-index: 1;
+font-weight: 600;
+font-family: Arial;
+font-size: 12pt;
+left: 5px;
+top: 38px;
+text-shadow: 1px 1px red;
+letter-spacing: 1px;
+}

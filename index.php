@@ -108,6 +108,7 @@
                   <div class="row-fluid">
                     <div class="span12">
                       <h2 align="left">Local</h2>
+                      <span id="locallive" class="live hide">LIVE</span>
                       <video width="100%" height="100%" id="localVideo" autoplay="autoplay" 
                       style="opacity: 0;
                       -webkit-transition-property: opacity;
@@ -121,6 +122,7 @@
                   <div class="row-fluid">
                     <div class="span12">
                       <h2 align="left">Remote</h2>
+                      <span id="remotelive" class="live hide">LIVE</span>
                       <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay"
                       style="opacity: 0; 
                       -webkit-transition-property: opacity;
