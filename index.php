@@ -106,7 +106,7 @@
                   
                   <!-- Local Video -->
                   <div class="row-fluid">
-                    <div class="span12">
+                    <div style="position: relative;" class="span12">
                       <h2 align="left">Local</h2>
                       <span id="locallive" class="live hide">LIVE</span>
                       <video width="100%" height="100%" id="localVideo" autoplay="autoplay" 
@@ -120,7 +120,7 @@
 
                   <!-- Remote Video -->
                   <div class="row-fluid">
-                    <div class="span12">
+                    <div style="position: relative;" class="span12">
                       <h2 align="left">Remote</h2>
                       <span id="remotelive" class="live hide">LIVE</span>
                       <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay"
