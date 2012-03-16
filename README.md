@@ -1,5 +1,7 @@
 # Prototype WebRTC
 
+This project is developed by Clément Mouret and Luc Tribolet during an internship at Atos Worldline.
+
 This prototype is only available for Chrome/Chromium with support WebRTC.
 This web application allow you to video chat with someone else by sharing a single link.
 There is an embedded chat. But for the moment the chat is using the signalling server for the message transport.
@@ -12,7 +14,7 @@ You have to install
 
 - node.js (socket.IO is directly provided with the sources)
 - a HTTP server
-- Chrome or Chromium > 18.0.1025 available in Chrome Dev or Chrome Canary repositories
+- Chrome or Chromium (please use the latest version of Chrome/Chromium Dev or Chrome Canary)
 
 ## Installation
 
