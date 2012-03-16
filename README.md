@@ -12,7 +12,7 @@ You have to install
 
 - node.js (Websocket module is directly provided with the sources)
 - a HTTP server
-- Chrome or Chromium > 18.0.1025 available in Chrome Dev or Chrome Canary repositories
+- Chrome or Chromium (please use the latest version of Chrome/Chromium Dev or Chrome Canary)
 
 ## Installation
 
