@@ -131,12 +131,14 @@ wsServer.on('request', function(request) {
      * broadcast bye signal to all users in the room
      */
     connection.on('close', function(reasonCode, description) {
-        connections[room].forEach(function(destination) {
-            if(destination != connection) {
-                var message = JSON.stringify({'type' : 'BYE', 'value': ''});
-                destination.send(message);
-            }
-        });
+        if(connections[room]) {
+            connections[room].forEach(function(destination) {
+                if(destination != connection) {
+                    var message = JSON.stringify({'type' : 'BYE', 'value': ''});
+                    destination.send(message);
+                }
+            });
+        }
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
 
