@@ -148,11 +148,14 @@ maybeStart = function() {
  * @return {void}
  */
 createPeerConnection = function() {
+  if(typeof webkitPeerConnection === 'function')
     pc = new webkitPeerConnection("NONE", onSignalingMessage);  
-    pc.onconnecting = onSessionConnecting;
-    pc.onopen = onSessionOpened;
-    pc.onaddstream = onRemoteStreamAdded;
-    pc.onremovestream = onRemoteStreamRemoved;  
+  else
+    pc = new webkitDeprecatedPeerConnection("NONE", onSignalingMessage);
+  pc.onconnecting = onSessionConnecting;
+  pc.onopen = onSessionOpened;
+  pc.onaddstream = onRemoteStreamAdded;
+  pc.onremovestream = onRemoteStreamRemoved;  
 }
 
 /**
