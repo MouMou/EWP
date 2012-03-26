@@ -65,18 +65,18 @@ setStatus = function(state) {
  */
 openChannel = function() {
 
-    socket = io.connect('http://localhost:8888/');
+    socket = io.connect("http://localhost:8888/");
 
     socket
-      .on('connect', onChannelOpened)
-      .on('message', onChannelMessage)
-      .on('error', onChannelError)
-      .on('bye', onChannelBye)
-      .on('close', onChannelClosed)
-      .on('recupererMessages', recupererMessages)
-      .on('recupererNouveauMessage', recupererNouveauMessage)
-      .on('prevSlide', remotePrev)
-      .on('nextSlide', remoteNext);
+      .on("connect", onChannelOpened)
+      .on("message", onChannelMessage)
+      .on("error", onChannelError)
+      .on("bye", onChannelBye)
+      .on("close", onChannelClosed)
+      .on("recupererMessages", recupererMessages)
+      .on("recupererNouveauMessage", recupererNouveauMessage)
+      .on("prevSlide", remotePrev)
+      .on("nextSlide", remoteNext);
      
     // search the url address for the parameter room
     // if it exists it means you are a guest and you don't need to request a room number
@@ -85,9 +85,8 @@ openChannel = function() {
       socket.emit("invite", room);
       guest =1;
     } else {
-      socket.on('getRoom', function(data){
+      socket.on("getRoom", function(data){
         room = data.roomId;
-        console.log(room);
         resetStatus();
         guest = 0;
       });     
@@ -120,7 +119,7 @@ onUserMediaSuccess = function(stream) {
 
     url = webkitURL.createObjectURL(stream);
     localVideo.css("opacity", "1");
-    $("#locallive").removeClass('hide');
+    $('#locallive').removeClass('hide');
     localVideo.attr("src", url);
     localStream = stream;   
 
@@ -196,8 +195,8 @@ onHangup = function() {
 
     localVideo.css("opacity", "0");    
     remoteVideo.css("opacity", "0");
-    $("#locallive").addClass('hide');
-    $("#remotelive").addClass('hide');    
+    $('#locallive').addClass('hide');
+    $('#remotelive').addClass('hide');    
 
     pc.close();
     pc = null;
@@ -220,7 +219,7 @@ onChannelOpened = function() {
 
     if (guest) maybeStart();
 
-    console.log('Channel opened.');
+    console.log("Channel opened.");
 
 }
 
@@ -245,14 +244,14 @@ onChannelMessage = function(message) {
 onChannelBye = function() {
   
     remoteVideo.css("opacity", "0");
-    $("#remotelive").addClass('hide');
+    $('#remotelive').addClass('hide');
     //remoteVideo.attr("src",null);
     guest = 0;
     started = false;
 
     setStatus("<div class=\"alert alert-info\">Your partner have left the call.</div>");
 
-    console.log('Session terminated.');  
+    console.log("Session terminated.");  
 
 }
 
@@ -262,7 +261,7 @@ onChannelBye = function() {
  */
 onChannelError = function() {    
 
-    console.log('Channel error.');
+    console.log("Channel error.");
 
 }
 
@@ -272,7 +271,7 @@ onChannelError = function() {
  */
 onChannelClosed = function() {   
 
-    console.log('Channel closed.');
+    console.log("Channel closed.");
 
 }
 
@@ -305,7 +304,7 @@ onRemoteStreamAdded = function(event) {
 
     url = webkitURL.createObjectURL(event.stream);
     remoteVideo.css("opacity", "1");
-    $("#remotelive").removeClass('hide');
+    $('#remotelive').removeClass('hide');
     remoteVideo.attr("src",url);
     
     setStatus("<div class=\"alert alert-success\">Is currently in video conference <button id=\"hangup\" class=\"btn btn-mini btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button></div>");
