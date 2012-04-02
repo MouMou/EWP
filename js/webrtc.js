@@ -60,7 +60,7 @@ setStatus = function(state) {
  */
 openChannel = function() {
 
-  connection = new WebSocket('ws://localhost:8080/');
+  connection = new WebSocket('ws://10.24.65.57:8080/');
 
   // When the connection is open, send some data to the server
   connection.onopen = onChannelOpened;
@@ -136,9 +136,9 @@ maybeStart = function() {
  */
 createPeerConnection = function() {
   if(typeof webkitPeerConnection === 'function')
-    pc = new webkitPeerConnection("NONE", onSignalingMessage);
+    pc = new webkitPeerConnection("STUN stun.com", onSignalingMessage);
   else
-    pc = new webkitDeprecatedPeerConnection("NONE", onSignalingMessage);
+    pc = new webkitDeprecatedPeerConnection("STUN stun.com", onSignalingMessage);
   pc.onconnecting = onSessionConnecting;
   pc.onopen = onSessionOpened;
   pc.onaddstream = onRemoteStreamAdded;
