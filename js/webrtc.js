@@ -21,16 +21,12 @@ var room;
  * @return {void}
  */
 initialize = function() {
-    
+    console.log("Initializing");
     localVideo = $("#localVideo");
     remoteVideo = $("#remoteVideo");
     status = $("#status");
-
     openChannel();
     getUserMedia();
-
-    console.log("Initializing");
-
 }
 
 /**
@@ -39,13 +35,14 @@ initialize = function() {
  */
 resetStatus = function() {
     
-    // if you aren't the guest it provides you a link to invite someone in the footer
+    /**
+     * if you aren't the guest it provides you a link to invite someone in the footer
+     */
     if (!guest) {
         setStatus("<div class=\"alert\">Waiting for someone to join: <a href=\""+window.location.href+"?room="+room+"\">"+window.location.href+"?room="+room+"</a></div>");
     } else {
         setStatus("Initializing...");
     }
-
 }
 
 /**
@@ -53,9 +50,7 @@ resetStatus = function() {
  * @param {string} state : string to be placed in the footer
  */
 setStatus = function(state) {
-
     $('#footer').html(state);
-
 }
 
 /**
@@ -64,34 +59,35 @@ setStatus = function(state) {
  * @return {void}
  */
 openChannel = function() {
-
-    socket = io.connect("http://10.24.68.11:8888/");
+    socket = io.connect('http://localhost:8888/');
 
     socket
-      .on("connect", onChannelOpened)
-      .on("message", onChannelMessage)
-      .on("error", onChannelError)
-      .on("bye", onChannelBye)
-      .on("close", onChannelClosed)
-      .on("recupererMessages", recupererMessages)
-      .on("recupererNouveauMessage", recupererNouveauMessage)
-      .on("prevSlide", remotePrev)
-      .on("nextSlide", remoteNext);
+      .on('connect', onChannelOpened)
+      .on('message', onChannelMessage)
+      .on('error', onChannelError)
+      .on('bye', onChannelBye)
+      .on('close', onChannelClosed)
+      .on('recupererMessages', recupererMessages)
+      .on('recupererNouveauMessage', recupererNouveauMessage)
+      .on('prevSlide', remotePrev)
+      .on('nextSlide', remoteNext);
      
-    // search the url address for the parameter room
-    // if it exists it means you are a guest and you don't need to request a room number
+    /**
+     * search the url address for the parameter room
+     * if it exists it means you are a guest and you don't need to request a room number
+     */ 
     if(location.search.substring(1,5) == "room") {
       room = location.search.substring(6);
       socket.emit("invite", room);
       guest =1;
     } else {
-      socket.on("getRoom", function(data){
+      socket.on('getRoom', function(data){
         room = data.roomId;
+        console.log(room);
         resetStatus();
         guest = 0;
-      });     
+      });
     }
-
 }
 
 /**
@@ -99,46 +95,38 @@ openChannel = function() {
  * @return {void}
  */
 getUserMedia = function() {
-
     try { 
         navigator.webkitGetUserMedia("video,audio", onUserMediaSuccess, onUserMediaError);
         console.log("Requested access to local media.");
     } catch (e) {
         console.log("getUserMedia error.");    
     }
-
 }
 
 /**
  * Callback function for getUserMedia() on success getting the media
  * create an url for the current stream
- * @param  {object} stream : contains the video and/or audio streams
+ * @param  {stream} stream : contains the video and/or audio streams
  * @return {void}
  */
 onUserMediaSuccess = function(stream) {
-
+    console.log("User has granted access to local media.");
     url = webkitURL.createObjectURL(stream);
     localVideo.css("opacity", "1");
-    $('#locallive').removeClass('hide');
+    $("#locallive").removeClass('hide');
     localVideo.attr("src", url);
     localStream = stream;   
-
-    if (guest) maybeStart();   
-
-    console.log("User has granted access to local media."); 
-
+    if (guest) maybeStart();    
 }
 
 /**
  * Callback function for getUserMedia() on fail getting the media
- * @param  {string} error : informations about the error
+ * @param  {error} error : informations about the error
  * @return {void}
  */
 onUserMediaError = function(error) {
-
     console.log("Failed to get access to local media. Error code was " + error.code);
     alert("Failed to get access to local media. Error code was " + error.code + ".");    
-
 }
 
 /**
@@ -146,19 +134,14 @@ onUserMediaError = function(error) {
  * @return {void}
  */
 maybeStart = function() {
-
     if (!started && localStream && channelReady) {      
         setStatus("Connecting..."); 
-
-        createPeerConnection(); 
-        console.log("Creating PeerConnection."); 
-             
+        console.log("Creating PeerConnection.");
+        createPeerConnection();  
+        console.log("Adding local stream.");      
         pc.addStream(localStream);
-        console.log("Adding local stream."); 
-
         started = true;
     }
-
 }
 
 /**
@@ -166,24 +149,24 @@ maybeStart = function() {
  * @return {void}
  */
 createPeerConnection = function() {
-
+  if(typeof webkitPeerConnection === 'function')
     pc = new webkitPeerConnection("NONE", onSignalingMessage);  
-    pc.onconnecting = onSessionConnecting;
-    pc.onopen = onSessionOpened;
-    pc.onaddstream = onRemoteStreamAdded;
-    pc.onremovestream = onRemoteStreamRemoved;  
-
+  else
+    pc = new webkitDeprecatedPeerConnection("NONE", onSignalingMessage);
+  pc.onconnecting = onSessionConnecting;
+  pc.onopen = onSessionOpened;
+  pc.onaddstream = onRemoteStreamAdded;
+  pc.onremovestream = onRemoteStreamRemoved;  
 }
 
 /**
  * Function called by the peerConnection method for the signaling process between clients
- * @param  {string} message : generated by the peerConnection API to send SDP message
+ * @param  {message} message : generated by the peerConnection API to send SDP message
  * @return {void}
  */
-onSignalingMessage = function(message) {     
-
+onSignalingMessage = function(message) {      
+    console.log("onSignalingMessage " + message);
     socket.send(message);
-
 }
 
 /**
@@ -192,20 +175,15 @@ onSignalingMessage = function(message) {
  * @return {void}
  */
 onHangup = function() {
-
+    console.log("Hanging up.");    
     localVideo.css("opacity", "0");    
     remoteVideo.css("opacity", "0");
-    $('#locallive').addClass('hide');
-    $('#remotelive').addClass('hide');    
-
+    $("#locallive").addClass('hide');
+    $("#remotelive").addClass('hide');    
     pc.close();
     pc = null;
     socket.emit("exit");
-
-    setStatus("<div class=\"alert alert-info\">You have left the call.</div>");
-
-    console.log("Hanging up.");    
-
+    setStatus("<div class=\"alert alert-info\">You have left the call.</div>");    
 }
 
 /**
@@ -214,27 +192,22 @@ onHangup = function() {
  * @return {void}
  */
 onChannelOpened = function() {    
-
+    console.log('Channel opened.');
     channelReady = true;
-
     if (guest) maybeStart();
-
-    console.log("Channel opened.");
-
 }
 
 /**
  * Called when the client receive a message from the websocket server
- * @param  {string} message : SDP message
+ * @param  {message} message : SDP message
  * @return {void}
  */
 onChannelMessage = function(message) {
-
+    console.log('S->C: ' + message);
     if (message.indexOf("\"ERROR\"", 0) == -1) {        
         if (!guest && !started) maybeStart();
         pc.processSignalingMessage(message);    
     }
-
 }
 
 /**
@@ -242,17 +215,13 @@ onChannelMessage = function(message) {
  * @return {void}
  */
 onChannelBye = function() {
-  
+    console.log('Session terminated.');    
     remoteVideo.css("opacity", "0");
-    $('#remotelive').addClass('hide');
+    $("#remotelive").addClass('hide');
     //remoteVideo.attr("src",null);
     guest = 0;
     started = false;
-
     setStatus("<div class=\"alert alert-info\">Your partner have left the call.</div>");
-
-    console.log("Session terminated.");  
-
 }
 
 /**
@@ -260,39 +229,33 @@ onChannelBye = function() {
  * @return {void}
  */
 onChannelError = function() {    
-
-    console.log("Channel error.");
-
+    console.log('Channel error.');
 }
 
 /**
  * log that the channel is closed
- * @return {void}
+ * @return {[type]}
  */
-onChannelClosed = function() {   
-
-    console.log("Channel closed.");
-
+onChannelClosed = function() {    
+    console.log('Channel closed.');
 }
 
 /**
  * Called when the peer connection is connecting
+ * @param  {message} message
  * @return {void}
  */
-onSessionConnecting = function() {   
-
+onSessionConnecting = function(message) {      
     console.log("Session connecting.");
-
 }
 
 /**
  * Called when the session between clients is established
+ * @param  {message} message
  * @return {void}
  */
-onSessionOpened = function() {   
-
+onSessionOpened = function(message) {      
     console.log("Session opened.");
-
 }
 
 /**
@@ -301,16 +264,12 @@ onSessionOpened = function() {
  * @return {void}
  */
 onRemoteStreamAdded = function(event) {   
-
+    console.log("Remote stream added.");
     url = webkitURL.createObjectURL(event.stream);
     remoteVideo.css("opacity", "1");
-    $('#remotelive').removeClass('hide');
+    $("#remotelive").removeClass('hide');
     remoteVideo.attr("src",url);
-    
     setStatus("<div class=\"alert alert-success\">Is currently in video conference <button id=\"hangup\" class=\"btn btn-mini btn-danger pull-right\" onclick=\"onHangup()\">Hang Up</button></div>");
-
-    console.log("Remote stream added.");
-
 }
 
 /**
@@ -318,8 +277,6 @@ onRemoteStreamAdded = function(event) {
  * @param  {event} event : event given by the browser
  * @return {void}
  */
-onRemoteStreamRemoved = function(event) {  
-
+onRemoteStreamRemoved = function(event) {   
     console.log("Remote stream removed.");
-
 }
