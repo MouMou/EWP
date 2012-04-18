@@ -65,7 +65,7 @@ setStatus = function(state) {
  */
 openChannel = function() {
 
-    socket = io.connect("http://localhost:8888/");
+    socket = io.connect("http://10.24.68.11:8888/");
 
     socket
       .on("connect", onChannelOpened)
