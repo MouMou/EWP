@@ -95,11 +95,19 @@ openChannel = function() {
  * @return {void}
  */
 getUserMedia = function() {
-    try { 
-        navigator.webkitGetUserMedia("video,audio", onUserMediaSuccess, onUserMediaError);
-        console.log("Requested access to local media.");
+    try {
+      navigator.webkitGetUserMedia({audio:true, video:true}, onUserMediaSuccess,
+                                   onUserMediaError);
+      console.log("Requested access to local media with new syntax.");
     } catch (e) {
-        console.log("getUserMedia error.");    
+      try {
+        navigator.webkitGetUserMedia("video,audio", onUserMediaSuccess,
+                                     onUserMediaError);
+        console.log("Requested access to local media with old syntax.");
+      } catch (e) {
+        alert("webkitGetUserMedia() failed. Is the MediaStream flag enabled in about:flags?");
+        console.log("webkitGetUserMedia failed with exception: " + e.message);
+      }
     }
 }
 
