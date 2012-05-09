@@ -60,7 +60,7 @@ setStatus = function(state) {
  */
 openChannel = function() {
 
-  connection = new WebSocket('ws://10.24.65.57:8080/');
+  connection = new WebSocket('ws://localhost:8080/');
 
   // When the connection is open, send some data to the server
   connection.onopen = onChannelOpened;
@@ -81,11 +81,19 @@ openChannel = function() {
  * @return {void}
  */
 getUserMedia = function() {
-    try { 
-        navigator.webkitGetUserMedia("video,audio", onUserMediaSuccess, onUserMediaError);
-        console.log("Requested access to local media.");
+    try {
+      navigator.webkitGetUserMedia({audio:true, video:true}, onUserMediaSuccess,
+                                   onUserMediaError);
+      console.log("Requested access to local media with new syntax.");
     } catch (e) {
-        console.log("getUserMedia error.");
+      try {
+        navigator.webkitGetUserMedia("video,audio", onUserMediaSuccess,
+                                     onUserMediaError);
+        console.log("Requested access to local media with old syntax.");
+      } catch (e) {
+        alert("webkitGetUserMedia() failed. Is the MediaStream flag enabled in about:flags?");
+        console.log("webkitGetUserMedia failed with exception: " + e.message);
+      }
     }
 }
 
