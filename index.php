@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-    
+
       	<title>WebRTC</title>
 
         <!-- Stylesheet Ressources -->
@@ -22,10 +22,10 @@
     </head>
 
     <body>
-        
+
         <!-- Modal Connection -->
         <div class="modal hide fade" id="ModalConnection">
-            
+
             <div class="modal-header">
               <h3>WebRTC Sample Connection</h3>
             </div>
@@ -47,7 +47,7 @@
 
         <!-- Modal About -->
         <div class="modal hide fade" id="ModalAbout">
-            
+
             <div class="modal-header">
               <h3>About WebRTC</h3>
             </div>
@@ -101,17 +101,17 @@
               <p>This is a demo for testing WebRTC in a LAN between two clients with WebRTC support.</p>
             </div>
             <!-- End of Introduction -->
-      
+
             <div class="row-fluid">
 
                 <div class="span3">
-                  
+
                   <!-- Local Video -->
                   <div class="row-fluid">
                     <div style="position: relative;" class="span12">
                       <h2 align="left">Local</h2>
                       <span id="locallive" class="live hide">LIVE</span>
-                      <video width="100%" height="100%" id="localVideo" autoplay="autoplay" 
+                      <video width="100%" height="100%" id="localVideo" autoplay="autoplay"
                       style="opacity: 0;
                       -webkit-transition-property: opacity;
                       -webkit-transition-duration: 2s;">
@@ -126,7 +126,7 @@
                       <h2 align="left">Remote</h2>
                       <span id="remotelive" class="live hide">LIVE</span>
                       <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay"
-                      style="opacity: 0; 
+                      style="opacity: 0;
                       -webkit-transition-property: opacity;
                       -webkit-transition-duration: 2s;">
                       </video>
@@ -137,7 +137,7 @@
                 </div>
 
                 <div class="span9">
-                  
+
                   <!-- Carousel -->
                   <div class="row-fluid" align="center">
                     <div class="span12">
