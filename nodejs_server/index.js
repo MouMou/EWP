@@ -15,8 +15,8 @@ var server = http.createServer(function(request, response) {
     response.end();
 });
 
-server.listen(8080, function() {
-    console.log((new Date()) + ' Server is listening on port 8080');
+server.listen(8888, function() {
+    console.log((new Date()) + ' Server is listening on port 8888');
 });
 
 /**
@@ -26,7 +26,7 @@ server.listen(8080, function() {
 var WebSocketServer = require('websocket').server;
 
 /**
- * Create the websocket server 
+ * Create the websocket server
  */
 wsServer = new WebSocketServer({
     httpServer: server,
@@ -68,11 +68,12 @@ wsServer.on('request', function(request) {
             case "INVITE" :
                 guest = true;
                 room = message["value"];
+                console.log(message);
                 connections[room].push(connection);
             break;
 
             /**
-             * If you are the first user to connect 
+             * If you are the first user to connect
              * create room
              */
             case "GETROOM" :
@@ -80,6 +81,7 @@ wsServer.on('request', function(request) {
                 message = JSON.stringify({'type' : 'GETROOM', 'value': room});
                 connection.send(message);
                 connections.push(room);
+                console.log(room);
                 connections[room] = new Array();
                 connections[room].push(connection);
             break;
@@ -88,43 +90,18 @@ wsServer.on('request', function(request) {
              * When a user send a SDP message
              * broadcast to all users in the room
              */
-            case "SDP" :
+            case "candidate" : case "offer" : case "answer" :
+                console.log(message);
                 connections[room].forEach(function(destination) {
                     if(destination != connection) {
-                        message = JSON.stringify({'type' : 'SDP', 'value': message["value"]});
-                        destination.send(message);
-                    }
-                });
-            break;
-
-            /**
-             * When a user changes for a next,previous slide
-             * broadcast to all users in the room
-             */
-            case "SLIDE" :
-                connections[room].forEach(function(destination) {
-                    if(destination != connection) {
-                        message = JSON.stringify({'type' : 'SLIDE', 'value': message["value"]});
-                        destination.send(message);
-                    }
-                });
-            break;
-
-            /**
-             * When we receive a new message (chat)
-             * broadcast to all users in the room
-             */
-            case "NEWMESSAGE" :
-                connections[room].forEach(function(destination) {
-                    if(destination != connection) {
-                        message = JSON.stringify({'type' : 'NEWMESSAGE', 'value': JSON.stringify(message["value"])});
+                        message = JSON.stringify(message);
                         destination.send(message);
                     }
                 });
             break;
         }
     });
-    
+
 
     /**
      * When the user hang up
