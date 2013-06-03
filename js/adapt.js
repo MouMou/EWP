@@ -3,6 +3,15 @@ var getUserMedia = null;
 var attachMediaStream = null;
 var reattachMediaStream = null;
 var webrtcDetectedBrowser = null;
+var webrtcDetectedVersion = null;
+
+function trace(text) {
+  // This function is used for logging.
+  if (text[text.length - 1] == '\n') {
+    text = text.substring(0, text.length - 1);
+  }
+  console.log((performance.now() / 1000).toFixed(3) + ": " + text);
+}
 
 if (navigator.mozGetUserMedia) {
   console.log("This appears to be Firefox");
@@ -21,6 +30,14 @@ if (navigator.mozGetUserMedia) {
   // Get UserMedia (only difference is the prefix).
   // Code from Adam Barth.
   getUserMedia = navigator.mozGetUserMedia.bind(navigator);
+
+  // Creates Turn Uri with new turn format.
+  createIceServer = function(turn_url, username, password) {
+    var iceServer = { 'url': turn_url,
+                      'credential': password,
+                      'username': username };
+    return iceServer;
+  };
 
   // Attach a media stream to an element.
   attachMediaStream = function(element, stream) {
@@ -47,6 +64,24 @@ if (navigator.mozGetUserMedia) {
   console.log("This appears to be Chrome");
 
   webrtcDetectedBrowser = "chrome";
+  webrtcDetectedVersion =
+             parseInt(navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./)[2]);
+
+  // For pre-M28 chrome versions use old turn format, else use the new format.
+  if (webrtcDetectedVersion < 28) {
+    createIceServer = function(turn_url, username, password) {
+      var iceServer = { 'url': 'turn:' + username + '@' + turn_url,
+                        'credential': password };
+      return iceServer;
+    };
+  } else {
+    createIceServer = function(turn_url, username, password) {
+      var iceServer = { 'url': turn_url,
+                        'credential': password,
+                        'username': username };
+      return iceServer;
+    };
+  }
 
   // The RTCPeerConnection object.
   RTCPeerConnection = webkitRTCPeerConnection;
@@ -57,8 +92,15 @@ if (navigator.mozGetUserMedia) {
 
   // Attach a media stream to an element.
   attachMediaStream = function(element, stream) {
-    element.src = webkitURL.createObjectURL(stream);
-    console.log(element);
+    if (typeof element.srcObject !== 'undefined') {
+      element.srcObject = stream;
+    } else if (typeof element.mozSrcObject !== 'undefined') {
+      element.mozSrcObject = stream;
+    } else if (typeof element.src !== 'undefined') {
+      element.src = URL.createObjectURL(stream);
+    } else {
+      console.log('Error attaching stream to element.');
+    }
   };
 
   reattachMediaStream = function(to, from) {

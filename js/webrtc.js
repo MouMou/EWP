@@ -5,7 +5,6 @@
 //-- Global variables declarations--//
 var localVideo;
 var remoteVideo;
-var status;
 var guest;
 var message;
 var url;
@@ -20,6 +19,15 @@ var sdpConstraints = {'mandatory': {
                       'OfferToReceiveAudio':true,
                       'OfferToReceiveVideo':true }};
 
+var isVideoMuted = false;
+var isAudioMuted = false;
+
+var pcConfig = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
+var pcConstraints = {"optional": [{"DtlsSrtpKeyAgreement": true}]};
+var offerConstraints = {"optional": [], "mandatory": {}};
+var mediaConstraints = {"audio": true, "video": {"mandatory": {}, "optional": []}};
+var turnUrl = 'https://computeengineondemand.appspot.com/turn?username=99820539&key=4080218913';
+var stereo = false;
 /**
  * The first function to be launched
  * @return {void}
@@ -28,8 +36,8 @@ initialize = function() {
     console.log("Initializing");
     localVideo = $("#localVideo");
     remoteVideo = $("#remoteVideo");
-    status = $("#status");
     openChannel();
+    //maybeRequestTurn();
     doGetUserMedia();
 };
 
@@ -56,6 +64,48 @@ resetStatus = function() {
 setStatus = function(state) {
     $('#footer').html(state);
 };
+
+maybeRequestTurn = function () {
+  for (var i = 0, len = pcConfig.iceServers.length; i < len; i++) {
+    if (pcConfig.iceServers[i].url.substr(0, 5) === 'turn:') {
+      turnDone = true;
+      return;
+    }
+  }
+
+  var currentDomain = document.domain;
+  if (currentDomain.search('localhost') === -1 &&
+      currentDomain.search('apprtc') === -1) {
+    // Not authorized domain. Try with default STUN instead.
+    turnDone = true;
+    return;
+  }
+
+  // No TURN server. Get one from computeengineondemand.appspot.com.
+  xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = onTurnResult;
+  xmlhttp.open('GET', turnUrl, true);
+  xmlhttp.send();
+};
+
+onTurnResult = function () {
+  if (xmlhttp.readyState !== 4)
+    return;
+
+  if (xmlhttp.status === 200) {
+    var turnServer = JSON.parse(xmlhttp.responseText);
+    // Create a turnUri using the polyfill (adapter.js).
+    var iceServer = createIceServer(turnServer.uris[0], turnServer.username,
+                                  turnServer.password);
+    pcConfig.iceServers.push(iceServer);
+  } else {
+    console.log('Request for TURN server failed.');
+  }
+  // If TURN request failed, continue the call with default STUN.
+  turnDone = true;
+  maybeStart();
+};
+
 
 /**
  * Declare the socket (websocket) and open it
@@ -85,15 +135,14 @@ openChannel = function() {
  * @return {void}
  */
 doGetUserMedia = function() {
-  var constraints = {"mandatory": {}, "optional": []};
   try {
-    getUserMedia({'audio':true, 'video':constraints}, onUserMediaSuccess,
-                 onUserMediaError);
-    console.log("Requested access to local media with mediaConstraints:\n" +
-                "  \"" + JSON.stringify(constraints) + "\"");
+    getUserMedia(mediaConstraints, onUserMediaSuccess,
+                onUserMediaError);
+    console.log('Requested access to local media with mediaConstraints:\n' +
+             '  \'' + JSON.stringify(mediaConstraints) + '\'');
   } catch (e) {
-    alert("getUserMedia() failed. Is this a WebRTC capable browser?");
-    console.log("getUserMedia failed with exception: " + e.message);
+    alert('getUserMedia() failed. Is this a WebRTC capable browser?');
+    console.log('getUserMedia failed with exception: ' + e.message);
   }
 };
 
@@ -107,9 +156,8 @@ onUserMediaSuccess = function(stream) {
   console.log("onUserMediaSuccess");
     // Call the polyfill wrapper to attach the media stream to this element.
     attachMediaStream(localVideo[0], stream);
-    console.log(localVideo);
     localVideo.css("opacity", "1");
-    localStream = stream;   
+    localStream = stream;
     // Caller creates PeerConnection.
     if (guest) maybeStart();
 };
@@ -142,11 +190,10 @@ maybeStart = function() {
 };
 
 doCall = function () {
-  var constraints = {"optional": [], "mandatory": {"MozDontOfferDataChannel": true}};
-  constraints = mergeConstraints(constraints, sdpConstraints);
-  console.log("Sending offer to peer, with constraints: \n" +
-              "  \"" + JSON.stringify(constraints) + "\".");
-  pc.createOffer(setLocalAndSendMessage, null, constraints);
+ var constraints = mergeConstraints(offerConstraints, sdpConstraints);
+    console.log('Sending offer to peer, with constraints: \n' +
+                '  \'' + JSON.stringify(constraints) + '\'.');
+    pc.createOffer(setLocalAndSendMessage, null, constraints);
 };
 
 doAnswer = function () {
@@ -175,22 +222,16 @@ setLocalAndSendMessage = function (sessionDescription) {
  * @return {void}
  */
 createPeerConnection = function() {
-  var pc_config = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
-  var pc_constraints = {"optional": [{"DtlsSrtpKeyAgreement": true}]};
-  // Force the use of a number IP STUN server for Firefox.
-  if (webrtcDetectedBrowser == "firefox") {
-    pc_config = {"iceServers":[{"url":"stun:23.21.150.121"}]};
-  }
   try {
     // Create an RTCPeerConnection via the polyfill (adapter.js).
-    pc = new RTCPeerConnection(pc_config, pc_constraints);
+    pc = new RTCPeerConnection(pcConfig, pcConstraints);
     pc.onicecandidate = onIceCandidate;
-    console.log("Created RTCPeerConnnection with:\n" +
-                "  config: \"" + JSON.stringify(pc_config) + "\";\n" +
-                "  constraints: \"" + JSON.stringify(pc_constraints) + "\".");
+    console.log('Created RTCPeerConnnection with:\n' +
+                '  config: \'' + JSON.stringify(pcConfig) + '\';\n' +
+                '  constraints: \'' + JSON.stringify(pcConstraints) + '\'.');
   } catch (e) {
-    console.log("Failed to create PeerConnection, exception: " + e.message);
-    alert("Cannot create RTCPeerConnection object; WebRTC is not supported by this browser.");
+    console.log('Failed to create PeerConnection, exception: ' + e.message);
+    alert('Cannot create RTCPeerConnection object; WebRTC is not supported by this browser.');
       return;
   }
 
