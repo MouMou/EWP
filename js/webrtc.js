@@ -313,6 +313,9 @@ onChannelMessage = function(message) {
                                               sdpMLineIndex:message.label,
                                               candidate:message.candidate
                                             });
+
+	 pc.addIceCandidate(candidate);
+
       break;
       case "offer" :
 
