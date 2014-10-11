@@ -1,111 +1,122 @@
 ///////////////////////////////////
-// Server Node.js with socket.IO //
+// Server Node.js full websocket //
 ///////////////////////////////////
+
 
 /**
  * Declare the server HTTP
- * listen to the port 8888
+ * listen to the port 8080
  */
-var http = require("http");
-var server = http.createServer();
-var app = server.listen(8888);
+var http = require('http');
+
+var server = http.createServer(function(request, response) {
+    console.log((new Date()) + ' Received request for ' + request.url);
+    response.writeHead(404);
+    response.end();
+});
+
+server.listen(8888, function() {
+    console.log((new Date()) + ' Server is listening on port 8888');
+});
 
 /**
- * Import socket.io module
+ * Import websocket module
  * on the server HTTP
  */
-var io = require('socket.io').listen(app);
+var WebSocketServer = require('websocket').server;
 
 /**
- * Declare the variable messages for the chat
+ * Create the websocket server
  */
-var messages = new Array();
+wsServer = new WebSocketServer({
+    httpServer: server,
+    autoAcceptConnections: false
+});
 
 /**
-* When a user connects
-*/
-io.sockets.on('connection', function (client) {
+ * Declare the variable connections for rooms and users
+ */
+var connections = new Array();
 
-	//-- Variables declarations--//
-	var guest = false;
-	var room = '';
+/**
+ * When a user connects
+ */
+wsServer.on('request', function(request) {
 
-	/**
-	 * When a user is invited
-	 * join the room
-	 * @param {int} invitation : room number
-	 */
-	client.on("invite", function(invitation){
-		room = invitation;
-		guest = true;
-		client.join(room);
-		messages[room] = new Array();
-	});
-
-	/**
-	 * If you are the first user to connect 
-	 * create room
-	 */
-	if(!guest){
-		room = Math.floor(Math.random()*1000001).toString();
-		client.emit('getRoom', {roomId : room});
-		client.join(room);
-		messages[room] = new Array();
-	}
-
-	/**
-	 * When a user send a SDP message
-	 * broadcast to all users in the room
-	 */
-  	client.on('message', function(message) {
-        var broadcastMessage = message;
-        client.broadcast.to(room).send(broadcastMessage);
-    });
+    //-- Variables declarations--//
+    var guest = false;
+    var room = '';
 
     /**
-	 * When a user changes for a next slide
-	 * broadcast to all users in the room
-	 */
-    client.on('prevSlide', function() {
-    	client.broadcast.to(room).emit('prevSlide');
-    });
+     * Accept the connection
+     */
+    var connection = request.accept(null, request.origin);
+    console.log((new Date()) + ' Connection accepted.');
 
     /**
-	 * When a user changes for a previous slide
-	 * broadcast to all users in the room
-	 */
-    client.on('nextSlide', function() {
-    	client.broadcast.to(room).emit('nextSlide');
+     * When we receive signal message from the client
+     */
+    connection.on('message', function(message) {
+        message = JSON.parse(message.utf8Data);
+        console.log(message);
+        switch(message["type"]) {
+
+            /**
+             * When a user is invited
+             * join the room
+             */
+            case "INVITE" :
+                guest = true;
+                room = message["value"];
+                console.log(message);
+                connections[room].push(connection);
+            break;
+
+            /**
+             * If you are the first user to connect
+             * create room
+             */
+            case "GETROOM" :
+                room = Math.floor(Math.random()*1000001).toString();
+                message = JSON.stringify({'type' : 'GETROOM', 'value': room});
+                connection.send(message);
+                connections.push(room);
+                console.log(room);
+                connections[room] = new Array();
+                connections[room].push(connection);
+            break;
+
+            /**
+             * When a user send a SDP message
+             * broadcast to all users in the room
+             */
+            case "candidate" : case "offer" : case "answer" :
+                console.log(message);
+                connections[room].forEach(function(destination) {
+                    if(destination != connection) {
+                        message = JSON.stringify(message);
+                        destination.send(message);
+                    }
+                });
+            break;
+        }
     });
 
+
     /**
-	 * List of messages (chat)
-	 */
-	client.emit('recupererMessages', messages[room]);
+     * When the user hang up
+     * broadcast bye signal to all users in the room
+     */
+    connection.on('close', function(reasonCode, description) {
+        if(connections[room]) {
+            connections[room].forEach(function(destination) {
+                if(destination != connection) {
+                    var message = JSON.stringify({'type' : 'BYE', 'value': ''});
+                    destination.send(message);
+                }
+            });
+        }
+        console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+    });
 
-	/**
-	 * When we receive a new message (chat)
-	 * add to the array
-	 * broadcast to all users in the room
-	 */
-	client.on('nouveauMessage', function (mess) {
-		messages[room].push(mess);
-		client.broadcast.to(room).emit('recupererNouveauMessage', mess);
-	});
-
-	/**
-	 * When the user hang up
-	 * broadcast bye signal to all users in the room
-	 */
- 	client.on('exit',function(){
-    	client.broadcast.to(room).emit('bye');
-  	});
-
-  	/**
-	 * When the user close the application
-	 * broadcast close signal to all users in the room
-	 */
-  	client.on('disconnect',function(){
-    	client.broadcast.to(room).emit('close');
-  	});
-});
+})
